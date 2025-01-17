@@ -8,7 +8,8 @@
 
 ## References and Resources
 
-List any resources used here, or simply put `N/A` if not applicable.
+https://developer.android.com/develop/ui/views/components/button#java
+https://www.youtube.com/watch?v=PJ3RdfJ4Np8
 
 ## Verbal Collaboration
 
