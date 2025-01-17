@@ -77,14 +77,7 @@ public class MainActivity extends AppCompatActivity {
         cityList.setAdapter(cityAdapter);
 
         //------------------------Lab participation code:-----------------------------------------
-
-        ConstraintLayout myScreen = (ConstraintLayout) findViewById(R.id.main);
-        myScreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("SCREEN", "Does this do anything???");
-            }
-        });
+        
 
 
         //Section for deleting items in the list
