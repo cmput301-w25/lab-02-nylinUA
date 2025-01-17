@@ -3,6 +3,7 @@ package com.example.listycity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -13,6 +14,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -21,6 +25,10 @@ public class MainActivity extends AppCompatActivity {
     ListView cityList;
     ArrayAdapter<String> cityAdapter;
     ArrayList<String> dataList;
+
+    StringBuffer cityUserInput = new StringBuffer();
+
+    int lastClickedCityPosition = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +41,13 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+
+        //create a List of cities to be displayed
+
         //ListView cityList = (ListView) findViewById(R.id.city_list);
         cityList = findViewById(R.id.city_list);
 
-        String[] cities = {"Edmonton", "Paris", "London", "Ottawa", "Hong Kong", "Seoul", "Tokyo", "New Delhi", "New York", "Shanghai" };
+        String[] cities = {"Edmonton", "Paris", "London", "Shanghai" };
 
         dataList = new ArrayList<>();
         dataList.addAll(Arrays.asList(cities));
@@ -45,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         cityList.setAdapter(cityAdapter);
 
 
+        /*
         Button buttonAdd = (Button) findViewById(R.id.button_add);
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -52,27 +64,62 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+         */
+
+        TextInputEditText cityInput = (TextInputEditText) findViewById(R.id.city_input_edit_text);
+
+
+        Button buttonAdd = (Button) findViewById(R.id.button_add);
+        buttonAdd.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.d("BUTTONS", "User tapped the Add button");
+
+                cityUserInput.append(cityInput.getText());
+
+                Log.d("BUTTONS", cityUserInput.toString());
+
+                dataList.add(cityUserInput.toString());
+                cityAdapter.notifyDataSetChanged();
+                cityUserInput.setLength(0);
+
+            }
+        });
+
+
+
         Button buttonDelete = (Button) findViewById(R.id.button_delete);
         buttonDelete.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.d("BUTTONS", "User tapped the Delete button");
+                if (lastClickedCityPosition != -1 && lastClickedCityPosition <= cities.length-1){
+                    dataList.remove(lastClickedCityPosition);
+                    //cityAdapter.remove(String.valueOf(lastClickedCityPosition));
+                    cityAdapter.notifyDataSetChanged();
+                    Log.d("BUTTONS", "bruhh" + lastClickedCityPosition);
+                    lastClickedCityPosition = -1;
+                }
+
             }
         });
 
-        Button buttonConfirm = (Button) findViewById(R.id.button_confirm);
-        buttonConfirm.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Log.d("BUTTONS", "User tapped the Confirm button");
-            }
-        });
+
 
         ListView citiesListView = (ListView) cityList;
-        citiesListView.setOnItemClickListener(new View.OnClickListener() {
+
+        citiesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(View v) {
-                Log.d("LISTVIEWS", "User tapped the list of cities");
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                String clickedItemIds = cityAdapter.getItem(position);
+                Log.d("LISTVIEWS", "User tapped the List item no." + position + ", " + clickedItemIds);
+                lastClickedCityPosition = position;
             }
         });
+
+
+
+
+
+
 
 
     }
