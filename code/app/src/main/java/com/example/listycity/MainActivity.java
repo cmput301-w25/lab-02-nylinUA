@@ -78,7 +78,12 @@ public class MainActivity extends AppCompatActivity {
 
         //------------------------Lab participation code:-----------------------------------------
 
-        
+        View.OnClickListener whateverListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("Other screeen?", "Does this work??");
+            }
+        };
 
         //Section for deleting items in the list
         //1. Create a listener for the delete button
@@ -88,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                 //Log.d("BUTTONS", "User tapped the Delete button");
 
                 //Only delete the item if its position exists within the size of the list of cities
-                if (lastClickedCityPosition != -1 && lastClickedCityPosition <= cities.length-1){
+                if (lastClickedCityPosition != -1 && lastClickedCityPosition <= dataList.size()-1){
                     dataList.remove(lastClickedCityPosition);
                     //cityAdapter.remove(String.valueOf(lastClickedCityPosition));
                     cityAdapter.notifyDataSetChanged();
@@ -123,11 +128,14 @@ public class MainActivity extends AppCompatActivity {
 
                 //Log.d("BUTTONS", cityUserInput.toString());
 
-                dataList.add(cityUserInput.toString());
-                cityAdapter.notifyDataSetChanged();
-                cityUserInput.setLength(0);
+                if (cityUserInput.length() > 0) {
 
-                lastClickedCityPosition = -1;
+                    dataList.add(cityUserInput.toString());
+                    cityAdapter.notifyDataSetChanged();
+                    cityUserInput.setLength(0);
+
+                    lastClickedCityPosition = -1;
+                }
 
             }
         });
